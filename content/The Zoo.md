@@ -1,24 +1,24 @@
 # InputHandler.cs
 ``` c#
-internal class InputHandler : MonoBehaviour  
+internal class InputHandler : MonoBehaviour
 {
-	public Vector2 MoveInput { get; private set; }  
+	public Vector2 MoveInput { get; private set; }
 	public Vector2 LookInput { get; private set; }
 	
 	private void Awake()  
-	{  
+	{
 	    InputActions = new PlayerInputActions();
 	    
-	    InputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();  
-		InputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;  
-		
-		InputActions.Player.Look.performed += ctx => LookInput = ctx.ReadValue<Vector2>();
-		InputActions.Player.Look.canceled += ctx => LookInput = Vector2.zero;
+	    InputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+	InputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
+	    
+	InputActions.Player.Look.performed += ctx => LookInput = ctx.ReadValue<Vector2>();
+	InputActions.Player.Look.canceled += ctx => LookInput = Vector2.zero;
 	}
 }
 ```
 - Input System을 활용하여 이벤트 기반으로 매 프레임 마다 호출하는 대신 `performed/canceled` 이벤트로 불필요 연산을 최소화할 수 있음
-- 추가적인 동작을 정의하고 싶다면 인터페이스만 맞춰서 구독하면 동작하므로 확장성이 뛰어남
+- 추가적인 동작을 정의하고 싶다면 인터페이스만 맞춰서 구독하면 동작하므로 확장성이 좋음
 # PlanetGravity.cs
 ``` c#
 public class PlanetGravity : MonoBehaviour
@@ -43,7 +43,7 @@ public class PlanetGravity : MonoBehaviour
 	{
 	    foreach (var rb in affectedBodies)
 	    {
-			if (!rb) continue;
+	    if (!rb) continue;
 	        rb.AddForce(GetGravityDirection(rb.position) * gravityStrength, ForceMode.Acceleration);  
 	    }
 	}
@@ -68,6 +68,20 @@ public class PlanetGravity : MonoBehaviour
 - 싱글톤 패턴을 사용하여 오직 하나만 존재하는 것을 보장하며 `PlanetGravity.Instance`으로 간단하게 접근 가능
 - 구독 형식으로 구현하여 힘을 받는 오브젝트를 동적으로 관리할 수 있도록 함
 - 구 형태의 게임 오브젝트에 부착하면 효과를 받는 오브젝트로부터 구 형태의 게임 오브젝트의 중심으로 일정 간격마다 힘이 가해짐
+# PlayerController.cs
+``` c#
+public class PlayerController : NetworkTransform, IMoveState  
+{
+	...
+	
+	private void Update()  
+	{  
+	    if (!IsOwner) return;  
+	  
+	    AlignToSurface();  
+	}
+}
+```
 # RoleManager.cs
 - 역할: 인게임에서 플레이어에게 역할을 부여해주는 클래스
 - 
