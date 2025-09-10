@@ -1,3 +1,5 @@
+> [!CAUTION]
+    > 스크립트의 전체 코드를 넣지 않고 일부 코드들은 생략되어 있습니다.
 # InputHandler.cs
 ``` c#
 internal class InputHandler : MonoBehaviour
@@ -72,7 +74,7 @@ public class PlanetGravity : MonoBehaviour
 ``` c#
 public class PlayerController : NetworkTransform, IMoveState  
 {
-	...
+	... // 중략
 	
 	private void Update()  
 	{  
@@ -80,8 +82,23 @@ public class PlayerController : NetworkTransform, IMoveState
 	  
 	    AlignToSurface();  
 	}
+	
+	private void AlignToSurface()  
+	{  
+	    if (!PlanetGravity.Instance) return;  
+	  
+	    var gravityDirection = -PlanetGravity.Instance.GetGravityDirection(transform.position);  
+	  
+	    var targetRotation = Quaternion.FromToRotation(  
+	        transform.up, gravityDirection) * transform.rotation;  
+	    transform.rotation = Quaternion.Slerp(  
+	        transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);  
+	}
+	
+	... // 중략
 }
 ```
+- 
 # RoleManager.cs
 - 역할: 인게임에서 플레이어에게 역할을 부여해주는 클래스
 - 
