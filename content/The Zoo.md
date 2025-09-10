@@ -1,5 +1,5 @@
 > [!CAUTION]
-    > 스크립트의 전체 코드를 넣지 않고 일부 코드들은 생략되어 있습니다.
+> 스크립트의 전체 코드를 넣지 않고 일부 코드들은 생략되어 있습니다.
 # InputHandler.cs
 ``` c#
 internal class InputHandler : MonoBehaviour
@@ -72,7 +72,7 @@ public class PlanetGravity : MonoBehaviour
 - 구 형태의 게임 오브젝트에 부착하면 효과를 받는 오브젝트로부터 구 형태의 게임 오브젝트의 중심으로 일정 간격마다 힘이 가해짐
 # PlayerController.cs
 ``` c#
-public class PlayerController : NetworkTransform, IMoveState  
+public class PlayerController : NetworkTransform  
 {
 	... // 중략
 	
@@ -98,7 +98,7 @@ public class PlayerController : NetworkTransform, IMoveState
 	... // 중략
 }
 ```
-- 
+- 구 형태의 맵에 맞춰 지속적으로 플레이어의 Y축을 정렬
 # RoleManager.cs
 - 역할: 인게임에서 플레이어에게 역할을 부여해주는 클래스
 - 
