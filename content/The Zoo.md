@@ -100,8 +100,33 @@ public class PlayerController : NetworkTransform
 ```
 - 구 형태의 맵에 맞춰 지속적으로 플레이어의 Y축을 정렬
 # RoleManager.cs
-- 역할: 인게임에서 플레이어에게 역할을 부여해주는 클래스
-- 
+``` c#
+public struct PlayerData : INetworkSerializable, IEquatable<PlayerData>  
+{  
+    public ulong ClientId;
+    public FixedString32Bytes Name;
+    public int AnimalIndex;
+  
+    public PlayerData(ulong id, FixedString32Bytes name, int index)  
+    {
+        ClientId = id;  
+        Name = name;  
+        AnimalIndex = index;  
+    }  
+    public bool Equals(PlayerData other)  
+    {
+        return ClientId == other.ClientId && Name.Equals(other.Name) && 
+        AnimalIndex.Equals(other.AnimalIndex);  
+    }  
+    public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter  
+    {  
+        serializer.SerializeValue(ref ClientId);  
+        serializer.SerializeValue(ref Name);  
+        serializer.SerializeValue(ref AnimalIndex);  
+    }
+}
+```
+- 네트워크에 동기화될 데이터를 정의한 구조체
 
 ``` c#
 public class RoleManager : NetworkBehaviour  
@@ -131,3 +156,5 @@ public class RoleManager : NetworkBehaviour
 	}
 }
 ```
+- 인게임 진입 시 플레이어들에게 역할(Hider, Seeker)를 부여하는 스크립트
+- 자동으로 동기화해주는 NetworkList를 사용하였고, NetworkList는 INetworkSerializable, IEquatable을 상속받은 값만 받을 수 있음
