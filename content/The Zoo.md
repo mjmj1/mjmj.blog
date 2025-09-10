@@ -7,13 +7,13 @@ internal class InputHandler : MonoBehaviour
 	
 	private void Awake()  
 	{
-	    InputActions = new PlayerInputActions();
+		InputActions = new PlayerInputActions();
 	    
-	    InputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
-	InputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
+		InputActions.Player.Move.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+		InputActions.Player.Move.canceled += ctx => MoveInput = Vector2.zero;
 	    
-	InputActions.Player.Look.performed += ctx => LookInput = ctx.ReadValue<Vector2>();
-	InputActions.Player.Look.canceled += ctx => LookInput = Vector2.zero;
+		InputActions.Player.Look.performed += ctx => LookInput = ctx.ReadValue<Vector2>();
+		InputActions.Player.Look.canceled += ctx => LookInput = Vector2.zero;
 	}
 }
 ```
@@ -43,7 +43,7 @@ public class PlanetGravity : MonoBehaviour
 	{
 	    foreach (var rb in affectedBodies)
 	    {
-	    if (!rb) continue;
+	        if (!rb) continue;
 	        rb.AddForce(GetGravityDirection(rb.position) * gravityStrength, ForceMode.Acceleration);  
 	    }
 	}
