@@ -73,6 +73,7 @@ https://github.com/mjmj1
 ##### 게임 결과
 - Seeker는 Hider를 찾아 제거해야 하고 모두 제거하게 되면 승리하게 됩니다.
   ![[seeker_win.gif|600]]
+  
   반대로 Hider는 5분 동안 들키지 않으면 승리하게 됩니다.
   ![[hider_win.png|600]]
 ### 2025 InD GamJam : Throw it
