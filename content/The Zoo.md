@@ -93,22 +93,24 @@ public class RoleManager : NetworkBehaviour
     public NetworkList<PlayerData> SeekerIds = new();
     
     internal void AssignRole()  
-{  
-    var clients = NetworkManager.Singleton.ConnectedClientsList;  
-    var seeker = Random.Range(0, clients.Count);  
-  
-    for (var i = 0; i < clients.Count; i++)  
-    {        var entity = clients[i].PlayerObject.GetComponent<PlayerEntity>();  
-  
-        var playerName = entity.playerName.Value;  
-        var index = entity.animalIndex.Value;  
-  
-        var data = new PlayerData(clients[i].ClientId, playerName, index);  
-  
-        if (seeker == i)  
-            SeekerIds.Add(data);  
-        else  
-            HiderIds.Add(data);  
-    }}
+	{  
+	    var clients = NetworkManager.Singleton.ConnectedClientsList;  
+	    var seeker = Random.Range(0, clients.Count);  
+	  
+	    for (var i = 0; i < clients.Count; i++)  
+	    {
+	        var entity = clients[i].PlayerObject.GetComponent<PlayerEntity>();  
+	  
+	        var playerName = entity.playerName.Value;  
+	        var index = entity.animalIndex.Value;  
+	  
+	        var data = new PlayerData(clients[i].ClientId, playerName, index);  
+	  
+	        if (seeker == i)  
+	            SeekerIds.Add(data);  
+	        else  
+	            HiderIds.Add(data);  
+	    }
+	}
 }
 ```
