@@ -1,45 +1,99 @@
-@use "./base.scss";
+/* ================================
+   Code Block - GitHub 스타일 카드
+   라이트/다크 테마 색상 분기 포함
+   ================================ */
 
-// put your custom CSS here!
-/* 코드블록 공통 */
-pre {
-  background: #0d1117;        /* 다크 느낌 */
-  color: #c9d1d9;
-  border: 1px solid #30363d;
+/* 공통 색 변수 */
+:root {
+  --cb-bg: #f6f8fa;         /* light background */
+  --cb-fg: #24292f;         /* light text */
+  --cb-border: #d0d7de;     /* light border */
+  --cb-title-bg: #eaeef2;   /* light title bar */
+  --cb-title-fg: #24292f;   /* light title text */
+  --cb-badge-bg: #dbe2ea;   /* light badge */
+  --cb-badge-fg: #2f3337;   /* light badge text */
+}
+
+html[data-theme="dark"] {
+  --cb-bg: #0d1117;         /* dark background (GitHub Dark) */
+  --cb-fg: #c9d1d9;         /* dark text */
+  --cb-border: #30363d;     /* dark border */
+  --cb-title-bg: #161b22;   /* dark title bar */
+  --cb-title-fg: #e6edf3;   /* dark title text */
+  --cb-badge-bg: #21262d;   /* dark badge */
+  --cb-badge-fg: #adbac7;   /* dark badge text */
+}
+
+/* 카드 래퍼 (타이틀 + 코드) */
+.codecard {
+  margin: 14px 0;
+  border: 1px solid var(--cb-border);
   border-radius: 8px;
+  overflow: hidden;
+  background: var(--cb-bg);
+}
+
+/* 타이틀 바 */
+.codecard-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--cb-title-bg);
+  color: var(--cb-title-fg);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* 좌측 점 3개(윈도우 버튼 느낌) */
+.codecard-title::before {
+  content: "●  ●  ●";
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  opacity: .6;
+  margin-right: 4px;
+}
+
+/* 언어 배지 */
+.codecard .lang-badge {
+  margin-left: auto;
+  background: var(--cb-badge-bg);
+  color: var(--cb-badge-fg);
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+/* 코드 영역(기존 pre/code에 덮어씌움) */
+.codecard pre {
+  margin: 0; /* 카드 안에서 여백 제거 */
+  background: var(--cb-bg) !important;
+  color: var(--cb-fg);
+  border: 0;
+  border-radius: 0;
   padding: 12px 16px;
   overflow-x: auto;
-  font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: 0.9rem;
   line-height: 1.55;
 }
 
 /* 인라인 코드 */
 code {
-  background: rgba(128,128,128,.12);
-  border-radius: 4px;
+  background: color-mix(in oklab, var(--cb-bg) 85%, #000 15%);
   padding: 2px 6px;
-  font-size: .85rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
 }
 
-/* 라이트/다크 테마 분기 */
-html[data-theme="light"] pre {
-  background: #f6f8fa;
-  color: #24292f;
-  border-color: #d0d7de;
+/* (선택) 줄번호가 필요하면 .numbered 클래스를 추가해 사용 */
+.codecard pre.numbered { counter-reset: line; }
+.codecard pre.numbered code { display: block; }
+.codecard pre.numbered code span {
+  display: block; padding-left: 3.25em; position: relative;
 }
-
-/* (선택) 코드블록 상단에 언어 라벨 느낌 */
-pre[class*="language-"] {
-  position: relative;
+.codecard pre.numbered code span::before {
+  counter-increment: line; content: counter(line);
+  position: absolute; left: 0; width: 2.5em; text-align: right;
+  opacity: .6;
 }
-pre[class*="language-"]::before {
-  content: attr(class);
-  position: absolute; top: 0; left: 0;
-  transform: translateY(-100%);
-  font-size: .68rem; font-weight: 700; letter-spacing: .02em;
-  background: #6e7681; color: #fff;
-  padding: 2px 6px; border-radius: 6px 6px 0 0;
-}
-/* 라이트/다크 라벨 색 */
-html[data-theme="light"] pre[class*="language-"]::before { background:#8b949e; }
