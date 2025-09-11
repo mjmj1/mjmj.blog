@@ -1,6 +1,7 @@
 ---
-Title: About Me
+title: About me
 ---
+
 # 자기 소개
 https://github.com/mjmj1
 
