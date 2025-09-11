@@ -1,12 +1,6 @@
----
-title: Welcome 🐓
----
 
-# 자기 소개
+# Git
 https://github.com/mjmj1
-
-안녕하세요. 게임 개발자를 꿈꾸고 있는 김만종입니다.
-주요 관심 분야는 게임 클라이언트와 게임 서버 개발입니다.
 # 이력
 ![![content/The Zoo.md]]
 
