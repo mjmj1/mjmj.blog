@@ -263,6 +263,7 @@ public class PlayerClimb : MonoBehaviour
 - 오르내리기와 스윙을 자유롭게 변환하도록 만들고 싶었지만 시간 부족으로 구현하지 못함
 - 로프와 사다리 모두에게 적용될 수 있도록 코드를 통합, Climbable이란 태그가 달려있으면 무엇이든지 오를 수 있도록 구현함
 - 사다리를 Ground와 겹쳐서 설치도 되고, 양 끝 부분부터 오르내릴 수 있고 중간에서도 시작할 수 있도록 Collider bound를 기준으로 오를 수 있는 곳인지 체크함 -> 더 좋은 아이디어가 있을 것 같지만 시간 부족으로 구현하지 못함
+# Parkour.cs
 ``` c#
 public class Parkour : MonoBehaviour
     {
