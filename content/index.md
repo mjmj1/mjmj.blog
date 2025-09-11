@@ -1,10 +1,7 @@
 ---
-TItle: Welcome
+Title: About Me
 ---
 # 자기 소개
-
-
-
 https://github.com/mjmj1
 
 안녕하세요. 게임 개발자를 꿈꾸고 있는 김만종입니다.
