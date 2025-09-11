@@ -74,18 +74,17 @@
 ``` c# title:PlayerController.cs
 protected override void Awake()  
 {  
-    if (!IsOwner) return;  
+    if (!IsOwner) return;
   
+    rb = GetComponent<Rigidbody>();
+    gravityBody = GetComponent<GravityBody>();
+    hittableBody = GetComponent<HittableBody>();
   
-    rb = GetComponent<Rigidbody>();  
-    gravityBody = GetComponent<GravityBody>();  
-    hittableBody = GetComponent<HittableBody>();  
+    entity = GetComponent<PlayerEntity>();
+    readyChecker = GetComponent<PlayerReadyChecker>();
+    animator = GetComponent<UnitNetworkAnimator>();
+    inputHandler = GetComponent<PlayerInputHandler>();
   
-    entity = GetComponent<PlayerEntity>();  
-    readyChecker = GetComponent<PlayerReadyChecker>();  
-    animator = GetComponent<UnitNetworkAnimator>();  
-    inputHandler = GetComponent<PlayerInputHandler>();  
-  
-    base.Awake();  
+    base.Awake();
 }
 ```

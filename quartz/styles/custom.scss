@@ -1,3 +1,45 @@
 @use "./base.scss";
 
 // put your custom CSS here!
+/* 코드블록 공통 */
+pre {
+  background: #0d1117;        /* 다크 느낌 */
+  color: #c9d1d9;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px 16px;
+  overflow-x: auto;
+  font-family: 'Fira Code', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+/* 인라인 코드 */
+code {
+  background: rgba(128,128,128,.12);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: .85rem;
+}
+
+/* 라이트/다크 테마 분기 */
+html[data-theme="light"] pre {
+  background: #f6f8fa;
+  color: #24292f;
+  border-color: #d0d7de;
+}
+
+/* (선택) 코드블록 상단에 언어 라벨 느낌 */
+pre[class*="language-"] {
+  position: relative;
+}
+pre[class*="language-"]::before {
+  content: attr(class);
+  position: absolute; top: 0; left: 0;
+  transform: translateY(-100%);
+  font-size: .68rem; font-weight: 700; letter-spacing: .02em;
+  background: #6e7681; color: #fff;
+  padding: 2px 6px; border-radius: 6px 6px 0 0;
+}
+/* 라이트/다크 라벨 색 */
+html[data-theme="light"] pre[class*="language-"]::before { background:#8b949e; }
