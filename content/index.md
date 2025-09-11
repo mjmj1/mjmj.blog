@@ -75,8 +75,8 @@ title: Welcome 🐓
 > - Unity 6 + [Netcode for GameObjects](https://docs.unity3d.com/Manual/multiplayer.html) 기반 분산 권한 토폴로지 적용
 > - 실제 플레이어처럼 행동하도록 [ML-Agents](https://github.com/Unity-Technologies/ml-agents) 활용 AI NPC적용
 > 
-> **Link**: https://github.com/mjmj1/The-Zoo
 > **Tech**: `Unity` · `Netcode for Gameobjects` · `ML-Agents`
+> **Link**: https://github.com/mjmj1/The-Zoo
 > <p align="left">
 >   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/unity/unity-original.svg" title="Unity" alt="Unity" width="36" height="36"/>
 >   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" title="C#" alt="C#" width="36" height="36"/>
