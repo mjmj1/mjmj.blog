@@ -2,6 +2,16 @@
 tags:
   - review
 ---
+
+```cardlink
+url: https://github.com/mjmj1/The-Zoo
+title: "GitHub - mjmj1/The-Zoo"
+description: "Contribute to mjmj1/The-Zoo development by creating an account on GitHub."
+host: github.com
+favicon: https://github.githubassets.com/favicons/favicon.svg
+image: https://opengraph.githubassets.com/dfe4362f0bd3af94512fd08bc9f15bc9bb18e53fc2a309191432ad0ec025c07d/mjmj1/The-Zoo
+```
+
 # InputHandler.cs
 ``` c#
 internal class InputHandler : MonoBehaviour
