@@ -1,5 +1,5 @@
 ---
-title: About me
+title: Welcome 🐓
 ---
 
 # 자기 소개
