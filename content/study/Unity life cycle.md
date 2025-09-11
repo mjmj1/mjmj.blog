@@ -1,0 +1,91 @@
+> MonoBehaviour: https://docs.unity3d.com/6000.2/Documentation/Manual/execution-order.html
+> NetworkBehaviour: https://docs.unity3d.com/Packages/com.unity.netcode.gameobjects@2.5/manual/components/core/networkbehaviour-synchronize.html
+
+
+# MonoBehaviour
+1. **씬/객체 로딩**
+    - `Awake()`
+    - `OnEnable()`
+2. **초기화**
+    - `Start()`
+3. **업데이트 루프**
+    - `FixedUpdate()` → 물리 연산
+    - `Update()` → 일반 로직
+    - `LateUpdate()` → 카메라 추적 등 후처리
+4. **렌더링 단계**
+    - `OnPreCull()`
+    - `OnPreRender()`
+    - `OnRenderObject()`
+    - `OnPostRender()`
+    - `OnRenderImage()`
+    - `OnGUI()`
+5. **비활성/제거**
+    - `OnDisable()`
+    - `OnDestroy()`
+# NetworkBehaviour
+`MonoBehaviour` 순서를 포함하면서 **네트워크 객체(NetworkObject)의 생명주기와 동기화 단계**가 추가됨
+1. **스폰 전/후**
+    - `OnNetworkPreSpawn()` – spawn 직전
+    - `OnNetworkSpawn()` – spawn 시점 (서버/클라 공통)
+    - `OnNetworkPostSpawn()` – spawn 이후
+    - `OnNetworkSessionSynchronized()` – 클라이언트가 세션 동기화 완료
+    - `OnInSceneObjectsSpawned()` – 씬 내 배치된 NetworkObject들이 모두 spawn 완료
+2. **업데이트 루프**
+    - `OnSynchronize()` – 직렬화/역직렬화 동기화 (late join 포함)
+    - `NetworkVariable` → dirty 체크 후 틱 단위로 전파
+    - RPC 실행 (`[ServerRpc]`, `[ClientRpc]`)
+3. **디스폰**
+    - `OnNetworkPreDespawn()` – despawn 직전
+    - `OnNetworkDespawn()`
+# MonoBehaviour vs NetworkBehaviour 차이점
+| 구분         | **MonoBehaviour**                            | **NetworkBehaviour**                                           |
+| ---------- | -------------------------------------------- | -------------------------------------------------------------- |
+| **상속 기반**  | UnityEngine.MonoBehaviour                    | MonoBehaviour + NetworkObject 필요                               |
+| **초기화**    | `Awake`, `OnEnable`, `Start`                 | `OnNetworkPreSpawn`, `OnNetworkSpawn`, `OnNetworkPostSpawn`    |
+| **업데이트**   | `FixedUpdate`, `Update`, `LateUpdate`        | 동일 + `OnSynchronize` (네트워크 데이터 직렬화/역직렬화)                       |
+| **상태 동기화** | 없음, 직접 구현 필요                                 | `NetworkVariable`, RPC, `OnSynchronize` 제공                     |
+| **순서 보장**  | 스크립트 실행 순서 설정 가능, 하지만 보장 X                   | NetworkVariable 순서 보장 X → RPC + OnSynchronize 패턴 필요            |
+| **객체 관리**  | 로컬 생성/파괴 (`Instantiate`, `Destroy`)          | 네트워크 생성/제거 (`NetworkObject.Spawn`, `Despawn`)                  |
+| **씬 관련**   | `OnDestroy`, `OnDisable` 등으로 객체 lifecycle 관리 | `OnInSceneObjectsSpawned`, `OnNetworkSessionSynchronized` 등 추가 |
+| **예외 처리**  | 콜백 내 예외 발생 시 실행 중단 가능성                       | OnSynchronize 내 예외 발생해도 해당 Behaviour만 skip, 나머지는 계속 진행         |
+| **성능 고려**  | CPU/GPU 프레임 성능 중심                            | 네트워크 트래픽, 패킷 크기, 동기화 지연까지 고려해야 함                               |
+# 활용법
+## 1. 컴포넌트 초기화
+- **Awake**
+	- `GetComponent`, 캐시, 필드 기본값 세팅(순수 로컬 상태)
+	- 싱글톤/서비스 로케이터 참조(있다면)
+	- 절대 네트워크 상태(소유권/스폰 여부)에 의존하지 말 것
+- **OnEnable**
+    - 경량 리스너 등록(예: UnityEvent, C# event), 타 시스템의 “존재만” 요구되는 구독
+    - 코루틴 시작은 가능하지만 **네트워크가 필요한 로직은 보류**
+- **Start**
+    - 다른 컴포넌트가 초기화된 뒤에 필요한 **교차 참조** 마무리
+    - 씬 내 비네트워크 오브젝트 의존 처리
+## Input System 이벤트 구독
+- **원칙**: “구독/활성화는 OnEnable, 해제는 OnDisable”이 메모리 누수와 도메인 리로드에 가장 안전
+- **네트워크 게임일 때(소유자만 입력 처리)**
+    - `OnEnable`: **구독만** 하고, 액션 활성화는 보류
+    - `OnNetworkSpawn`: `if (IsOwner)`일 때 **액션 Enable/맵 활성화**, 카메라/컨트롤러 연결
+    - `OnDisable`: **항상** 구독 해제 및 액션 Disable
+- PlayerInput 사용 시
+    - `playerInput.enabled = IsOwner;` (OnNetworkSpawn)
+    - 소유자가 아닌 경우 로컬 컨트롤러/카메라/오디오 입력 전부 비활성
+### 실제 사용한 방법
+``` c# title:PlayerController.cs
+protected override void Awake()  
+{  
+    if (!IsOwner) return;  
+  
+  
+    rb = GetComponent<Rigidbody>();  
+    gravityBody = GetComponent<GravityBody>();  
+    hittableBody = GetComponent<HittableBody>();  
+  
+    entity = GetComponent<PlayerEntity>();  
+    readyChecker = GetComponent<PlayerReadyChecker>();  
+    animator = GetComponent<UnitNetworkAnimator>();  
+    inputHandler = GetComponent<PlayerInputHandler>();  
+  
+    base.Awake();  
+}
+```
