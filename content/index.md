@@ -83,8 +83,6 @@ title: Welcome 🐓
 >   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" title="PyTorch / ML-Agents" alt="PyTorch" width="36" height="36"/>
 > </p>
 
----
-
 > [!tip] 📚 **리딩 브릿지 — 생성형 AI 난독증 아동 교재 생성 서비스**
 > - 생성형 AI로 학습 난이도·문장 구조를 조절한 맞춤형 교재 생성
 > - OCR·메타데이터 파이프라인과 저장/조회 API를 통해 교재 제작 자동화
