@@ -2,16 +2,8 @@
 tags:
   - review
 ---
-
-```cardlink
-url: https://github.com/mjmj1/InD_GameJam_2
-title: "GitHub - mjmj1/InD_GameJam_2"
-description: "Contribute to mjmj1/InD_GameJam_2 development by creating an account on GitHub."
-host: github.com
-favicon: https://github.githubassets.com/favicons/favicon.svg
-image: https://opengraph.githubassets.com/435029bdc42c8b13369028859794503d33144e6250c691ecb7ebf3e23a0d0fdd/mjmj1/InD_GameJam_2
-```
-
+# Git
+https://github.com/mjmj1/InD_GameJam_2
 # InputSystem.cs
 ``` c#
 public class InputSystem : MonoBehaviour
