@@ -1,7 +1,7 @@
 ---
 title: Welcome 🐓
 ---
-현재 멀티 플레이, 그리고 AI를 접목한 게임 [The Zoo](https://github.com/mjmj1/The-Zoo) 개발에 집중하고 있습니다.  
+현재 멀티 플레이 소셜 디덕션 장르에 AI를 접목한 게임 [The Zoo](https://github.com/mjmj1/The-Zoo) 개발에 집중하고 있습니다.  
 주요 관심사는 **Unity**, **C#**, **백엔드 개발**입니다.
 
 ---
