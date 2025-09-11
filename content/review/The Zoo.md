@@ -162,3 +162,94 @@ public class RoleManager : NetworkBehaviour
 ```
 - 인게임 진입 시 플레이어들에게 역할(Hider, Seeker)를 부여하는 스크립트
 - 자동으로 동기화해주는 NetworkList를 사용, 단 NetworkList는 INetworkSerializable, IEquatable을 상속받은 값만 받을 수 있음
+# PlayerSpawner.cs
+``` c#
+public class SpawnObjectStore : MonoBehaviour
+{
+	[SerializeField] private List<AnimalData> animalDataList;
+
+	public static SpawnObjectStore Instance { get; private set; }
+
+	public void Awake()
+	{
+		if (!Instance) Instance = this;
+		else Destroy(gameObject);
+	}
+
+	public AnimalData GetAnimalData(AnimalType type)
+	{
+		var data = animalDataList.Find(d => d.type == type);
+		
+		return data;
+	}
+
+	public int GetLength()
+	{
+		return animalDataList.Count;
+	}
+}
+```
+- 스크립터블 오브젝트로 NPC Prefab과 Player Prefab을 한번에 관리하고 이를 가지고 있는 클래스
+- 싱글톤으로 구현
+``` c#
+public class PlayerSpawner : NetworkBehaviour
+{
+	private readonly NetworkList<int> spawnedAnimals = new();
+
+	protected override void OnNetworkSessionSynchronized()
+	{
+		Spawn();
+
+		base.OnNetworkSessionSynchronized();
+	}
+
+	[Rpc(SendTo.Owner)]
+	private void AddRpc(AnimalType type)
+	{
+		spawnedAnimals.Add((int)type);
+	}
+
+	[Rpc(SendTo.Owner)]
+	internal void RemoveRpc(AnimalType type)
+	{
+		spawnedAnimals.Remove((int)type);
+	}
+
+	private void Spawn()
+	{
+		var length = SpawnObjectStore.Instance.GetLength();
+
+		var type = GetRandomAnimalTypeDistrict(length);
+
+		SpawnPlayerObject(type);
+
+		AddRpc(type);
+	}
+
+	private AnimalType GetRandomAnimalTypeDistrict(int max)
+	{
+		var candidates = Enumerable
+			.Range(0, max)
+			.Where(i => !spawnedAnimals.Contains(i))
+			.ToList();
+
+		if (candidates.Count == 0) return 0;
+
+		return (AnimalType)candidates[Random.Range(0, candidates.Count)];
+	}
+
+	private void SpawnPlayerObject(AnimalType type)
+	{
+		var data = SpawnObjectStore.Instance.GetAnimalData(type);
+		var prefab = data.playerPrefab;
+
+		var netObj = prefab.InstantiateAndSpawn(NetworkManager,
+			NetworkManager.LocalClientId,
+			isPlayerObject: true);
+
+		netObj.GetComponent<PlayerEntity>().animalType.Value = type;
+	}
+}
+```
+- 모든 동물 프리팹 중 이미 소환되어 있는 프리팹을 제외하고 랜덤하게 플레이어로 소환
+- 소환된 동물은 enum 으로 관리하고 networklist를 통해 동기화
