@@ -1,5 +1,3 @@
-> [!CAUTION]
-> 스크립트의 전체 코드를 넣지 않고 일부 코드들은 생략되어 있습니다.
 # InputHandler.cs
 ``` c#
 internal class InputHandler : MonoBehaviour
@@ -69,7 +67,7 @@ public class PlanetGravity : MonoBehaviour
 - 구(球) 형태의 맵을 돌아다니는 것으로 기획을 하였기 때문에 기본 중력을 사용하지 않고 직접 구현한 중력을 사용함
 - 싱글톤 패턴을 사용하여 오직 하나만 존재하는 것을 보장하며 `PlanetGravity.Instance`으로 간단하게 접근 가능
 - 구독 형식으로 구현하여 힘을 받는 오브젝트를 동적으로 관리할 수 있도록 함
-- 구 형태의 게임 오브젝트에 부착하면 효과를 받는 오브젝트로부터 구 형태의 게임 오브젝트의 중심으로 일정 간격마다 힘이 가해짐
+- 구 형태의 게임 오브젝트에 부착하면 효과를 받는 오브젝트로부터 구 형태의 게임 오브젝트의 중심으로 일정 간격마다 (FixedUpdate) 힘이 가해짐
 # PlayerController.cs
 ``` c#
 public class PlayerController : NetworkTransform  
@@ -157,4 +155,4 @@ public class RoleManager : NetworkBehaviour
 }
 ```
 - 인게임 진입 시 플레이어들에게 역할(Hider, Seeker)를 부여하는 스크립트
-- 자동으로 동기화해주는 NetworkList를 사용하였고, NetworkList는 INetworkSerializable, IEquatable을 상속받은 값만 받을 수 있음
+- 자동으로 동기화해주는 NetworkList를 사용, 단 NetworkList는 INetworkSerializable, IEquatable을 상속받은 값만 받을 수 있음
