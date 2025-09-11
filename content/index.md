@@ -8,6 +8,6 @@ title: Welcome 🐓
 
 [Github](https://github.com/mjmj1)
 
-[포트폴리오](./portfolio/Portfolio.md)
+[포트폴리오](Portfolio.md)
 
 [코드 리뷰](./review/)
