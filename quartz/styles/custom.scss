@@ -3,7 +3,7 @@
    라이트/다크 테마 색상 분기 포함
    ================================ */
 
-/* 공통 색 변수 */
+/* 공통 색 변수 (전역 변수 정의는 OK: 외형을 바꾸진 않음) */
 :root {
   --cb-bg: #f6f8fa;         /* light background */
   --cb-fg: #24292f;         /* light text */
@@ -13,7 +13,6 @@
   --cb-badge-bg: #dbe2ea;   /* light badge */
   --cb-badge-fg: #2f3337;   /* light badge text */
 }
-
 html[data-theme="dark"] {
   --cb-bg: #0d1117;         /* dark background (GitHub Dark) */
   --cb-fg: #c9d1d9;         /* dark text */
@@ -44,8 +43,6 @@ html[data-theme="dark"] {
   font-size: 0.85rem;
   font-weight: 600;
 }
-
-/* 좌측 점 3개(윈도우 버튼 느낌) */
 .codecard-title::before {
   content: "●  ●  ●";
   font-size: 0.7rem;
@@ -64,9 +61,9 @@ html[data-theme="dark"] {
   border-radius: 999px;
 }
 
-/* 코드 영역(기존 pre/code에 덮어씌움) */
+/* 코드 영역(코드 카드 안에서만 적용) */
 .codecard pre {
-  margin: 0; /* 카드 안에서 여백 제거 */
+  margin: 0;
   background: var(--cb-bg) !important;
   color: var(--cb-fg);
   border: 0;
@@ -78,15 +75,15 @@ html[data-theme="dark"] {
   line-height: 1.55;
 }
 
-/* 인라인 코드 */
-code {
+/* 인라인 코드: 카드 내부일 때만 스타일 */
+.codecard :not(pre) > code {
   background: color-mix(in oklab, var(--cb-bg) 85%, #000 15%);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.85rem;
 }
 
-/* (선택) 줄번호가 필요하면 .numbered 클래스를 추가해 사용 */
+/* (선택) 줄번호: 카드 내부일 때만 */
 .codecard pre.numbered { counter-reset: line; }
 .codecard pre.numbered code { display: block; }
 .codecard pre.numbered code span {
