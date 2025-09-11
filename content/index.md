@@ -71,9 +71,9 @@ title: Welcome 🐓
 ---
 
 ## 🚀 대표 프로젝트
-> [!summary] 🎮 **The Zoo — 소셜 디덕션 멀티플레이 게임**
-> Unity 6 + [Netcode for GameObjects](https://docs.unity3d.com/Manual/multiplayer.html) 기반 분산 권한 토폴로지 적용
-> 실제 플레이어처럼 행동하도록 [ML-Agents](https://github.com/Unity-Technologies/ml-agents) 활용 AI NPC적용
+> [!tip] 🎮 **The Zoo — 소셜 디덕션 멀티플레이 게임**
+> - Unity 6 + [Netcode for GameObjects](https://docs.unity3d.com/Manual/multiplayer.html) 기반 분산 권한 토폴로지 적용
+> - 실제 플레이어처럼 행동하도록 [ML-Agents](https://github.com/Unity-Technologies/ml-agents) 활용 AI NPC적용
 > 
 > **Link**: https://github.com/mjmj1/The-Zoo
 > **Tech**: `Unity` · `Netcode for Gameobjects` · `ML-Agents`
@@ -86,8 +86,8 @@ title: Welcome 🐓
 ---
 
 > [!tip] 📚 **리딩 브릿지 — 생성형 AI 난독증 아동 교재 생성 서비스**
-> 생성형 AI로 학습 난이도·문장 구조를 조절한 맞춤형 교재 생성
-> OCR·메타데이터 파이프라인과 저장/조회 API를 통해 교재 제작 자동화
+> - 생성형 AI로 학습 난이도·문장 구조를 조절한 맞춤형 교재 생성
+> - OCR·메타데이터 파이프라인과 저장/조회 API를 통해 교재 제작 자동화
 >
 > **역할**: 프롬프트 최적화, DB 구조 설계/구현, 저장·생성 API 개발, 코드 리팩토링
 > **Tech**: `Spring Boot` · `PostgreSQL` · `Tesseract` · `openai`  
